@@ -58,7 +58,7 @@ def featured_image(browser):
     browser.visit(url)
 
     # Find and click the full image button
-    full_image_elem = browser.find_by_id('full_image')[0]
+    full_image_elem = browser.find_by_id('full_image')
     full_image_elem.click()
 
     # Find the more info button and click that
