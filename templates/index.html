@@ -47,5 +47,22 @@
             </div>
         </div>
     </div>
+
+    <!-- Challenge -->
+    <div class="row" id="mars-hemisphere">
+        <div class="page-header">
+            <h2 class="text-center">Hemispheres of Mars</h2>
+        </div>
+        {% for hemisphere in mars.hemispheres %}
+          <div class="col-md-3">
+              <div class="thumbnail">
+                  <img src="{{hemisphere.img_url}}"/>
+                  <div class="caption">
+                      <h3>{{hemisphere.title}}</h3>
+                  </div>
+              </div>
+          </div>
+        {% endfor %}
+    </div> 
 </body>
 </html>

@@ -18,6 +18,7 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
+        "hemispheres": hemispheres(browser),
         "last_modified": dt.datetime.now()
     }
 
@@ -95,6 +96,43 @@ def mars_facts():
          
     #convert the dataframe to html format and add bootstrap
     return table_df.to_html(classes="table tabled-striped")
+
+def hemispheres(browser):
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+
+    hemisphere_image_urls = []
+    links = browser.find_by_css('a.product-item h3')
+
+
+    for i in range(len(links)):
+    
+
+        browser.find_by_css('a.product-item h3')[i].click()
+        hemisphere_data = scrape_hemisphere(browser.html)
+        
+        hemisphere_image_urls.append(hemisphere_data)
+        browser.back()
+
+    return hemisphere_image_urls
+
+def scrape_hemisphere(html_text):
+
+    hemi_scrape = bs(html_text, 'html.parser')
+
+    try:
+        title_element = hemi_scrape.find("h2", class_='title').get_text()
+        sample_element = hemi_scrape.find("a", text='Sample').get("href")
+
+    except AttributeError:
+        title_element = None
+        sample_element = None
+    hemispheres_dictionary ={
+        "title": title_element,
+        "img_url": sample_element
+    }
+    return hemispheres_dictionary
+
 
 if __name__ == "__main__":
     # If running as script, print scraped data    
